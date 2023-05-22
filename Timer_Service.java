@@ -1,4 +1,5 @@
-package org.o7planning.continuetimerworkuav;
+package org.o7planning.bgservicesms;
+
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,18 +18,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
-//--------------------------------------------------------------------
-// 
-// Timer_Service Class as Service
-// 
-// Add as File -> New -> Service
-// 
-// Working in backplane
-// 
-// (c) Valery Shmelev http://oflameron.com
-// 
-//--------------------------------------------------------------------
-
+//----------------------------------------------
+//
+// The timer works as a separate service.
+//
+//----------------------------------------------
 public class Timer_Service extends Service {
     public static int ed =0;
     public static String str_receiver = "com.countdowntimerservice.receiver";
@@ -56,20 +50,14 @@ public class Timer_Service extends Service {
         super.onCreate();
 
         mTimer = new Timer();
-        mTimer.schedule(new TimeDisplayTimerTask(), 0,10000); // 10 sec
-        // intent = new Intent(str_receiver);
+        mTimer.schedule(new TimeDisplayTimerTask(), 0,100000);
         intent = new Intent(str_receiver);
         sendBroadcast(intent);
-
-
 
     } // onCreate
 
 
-
-
     class TimeDisplayTimerTask extends TimerTask {
-        //int tm = intent.getIntExtra("time", 10);
 
         @Override
         public void run() {
@@ -78,7 +66,7 @@ public class Timer_Service extends Service {
                 @Override
                 public void run() {
                     ed = ed +1;
-                    Log.e("== == mTimer == == ", "================ mTimer ============== " + String.valueOf(ed) + "oflameron.com");
+                    Log.e("== == mTimer == == ", "================ mTimer ============== " + String.valueOf(ed) + " ");
                     sendBroadcast(intent);
 
                 }
@@ -91,7 +79,6 @@ public class Timer_Service extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        // = mTimer.cancel();
         Log.e("== == Service finish == == ", "Finish");
     }
 
